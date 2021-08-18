@@ -1,4 +1,4 @@
-import discord, typing, asyncio, random, datetime
+import discord, typing, asyncio, random, datetime, json
 from discord.ext import commands
 from discord.ext.commands import has_any_role
 from typing import Optional, Union
@@ -96,6 +96,92 @@ class General(commands.Cog):
             )
             await ctx.message.delete()
             await ctx.send(embed=embed)
+
+    @commands.command(description="view the current drop settings")
+    async def settings(self, ctx):
+        r = await db.fetch_drop(ctx.guild.id)
+        if r[4] == 'True':
+            color = discord.Colour.dark_green()
+        elif r[4] == 'False':
+            color = discord.Colour.dark_red()
+        else:
+            color = discord.Colour.random()
+        embed = discord.Embed(
+            title=f"{ctx.guild}'s Drop Settings", 
+            color=color
+        )
+        embed.add_field(name="Drop Status", value="<a:green:848971267050176513> `Enabled`" if r[4] != 'False' else "<a:red:848971266676883506> `Disabled`", inline=True)
+        m, s = divmod(int(r[2]), 60)
+        h, m = divmod(m, 60)
+        d, h = divmod(h, 24)
+        embed.add_field(name = '\u200b', value = '\u200b', inline=True)
+        embed.add_field(name="Drop Time", value="{}d : {}h : {}m : {}s".format(d, h, m, s), inline=True)
+        embed.add_field(name='Drop Channel', value = f"<#{r[1]}>", inline=True)
+        embed.add_field(name= '\u200b', value='\u200b', inline=True)
+        embed.add_field(name="Last Drop", value =r[3], inline=True)
+        await ctx.message.delete()
+        await ctx.send(embed=embed)
+
+    @commands.command(descripiton="Dump components files.")
+    async def dump(self, ctx):
+        fp = open("./Cogs/components.json", 'r').read()
+        f = json.loads(fp)
+        images = f["drops"]["images"]
+        messages = f["drops"]["messages"]
+
+        msg = await ctx.send("Are you sure you want to do this? It will dump all contents into chat.?")
+        emojis = ['✅', '❌']
+        for emoji in emojis:
+            await msg.add_reaction(emoji)
+
+        def check(reaction, user):
+            return user == ctx.author and user != self.bot.user and str(reaction.emoji) in emojis
+
+        
+        try:
+            reaction, user = await self.bot.wait_for("reaction_add", check = check, timeout = 120)
+
+        
+            if str(reaction.emoji) == '✅':
+                for image in images:
+                    embed = discord.Embed(
+                        description=f"[Image Link]({image})",
+                        color=discord.Colour.dark_green()
+                    )
+                    embed.set_image(url=image)
+                
+                    await ctx.send(embed=embed)
+                
+                if len(messages) < 10:
+
+                    embed = discord.Embed(
+                        title="Messages",
+                        color=discord.Colour.dark_green()
+                    )
+                    for message in messages:
+                        embed.add_field(name='\u200b', value=message, inline=False)
+                    
+                    await ctx.send(embed = embed)
+                
+                elif len(messages) > 10 and len(messages) < 50:
+                    
+                    for message in messages:
+                        embed = discord.Embed(
+                            description=message,
+                            color=discord.Colour.dark_green()
+                        )
+                        await ctx.send(embed = embed)
+                
+                await ctx.send("✅ All Components have been dumped.")
+            
+            elif str(reaction.emoji) == "❌":
+                await ctx.send("❌ Cancelled component dump")
+        
+        except asyncio.TimeoutError:
+            try:
+                await msg.delete()
+            except:
+                pass
 
 def setup(bot):
     bot.add_cog(General(bot))
