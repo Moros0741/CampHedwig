@@ -36,7 +36,10 @@ class Drops(commands.Cog):
             reaction, user = await self.bot.wait_for('reaction_add', check=check, timeout=300)
             if reaction.emoji == emoji:
                 count = await db.fetch_user(guild.id, user.id)
-                count = count[2]
+                if count is None:
+                    count = 0
+                else:
+                    count = count[2]
                 await msg.clear_reactions()
                 winner = discord.Embed(
                     title="You claimed the Marshmallow!", 
@@ -45,7 +48,7 @@ class Drops(commands.Cog):
                 )
                 winner.set_image(url=image)
                 winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you've ate `{int(count) + 1}` {emoji} marshmallows")
-                await msg.edit(embed = winner, delete_after=10)
+                await msg.edit(embed = winner, delete_after=30)
                 await db.update_count(guild.id, user.id)
         
         except asyncio.TimeoutError:

@@ -35,7 +35,7 @@ async def set_drop_channel(guild, channel):
 async def set_user(guild, user, count):
     db = sqlite3.connect('drops.sqlite')
     c = db.cursor()
-    c.execute("INSERT INTO users(guild_id, user_id, count, active) VALUES(?,?,?)", (guild, user, count, 'True',))
+    c.execute("INSERT INTO users(guild_id, user_id, count, active) VALUES(?,?,?,?)", (guild, user, count, 'True',))
     db.commit()
     c.close()
     db.close()
