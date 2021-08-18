@@ -63,7 +63,7 @@ async def fetch_user(guild, user):
 async def fetch_all(guild):
     db = sqlite3.connect('drops.sqlite')
     cursor = db.cursor()
-    results = cursor.execute("SELECT user_id, count FROM users WHERE guild_id = ? and active = ? ORDER BY count ASC", (guild, 'True',)).fetchall()
+    results = cursor.execute("SELECT user_id, count FROM users WHERE guild_id = ? and active = ? ORDER BY count DESC", (guild, 'True',)).fetchall()
     cursor.close()
     db.close()
     return results

@@ -22,7 +22,7 @@ class Drops(commands.Cog):
         image = random.choice(c["drops"]["images"])
         
         embed = discord.Embed(
-            description=f"Oh. what's this? An {emoji} has been found! Let's make some S'mores, react below to claim it.",
+            description=f"Oh. What's this? A {emoji} has been found! Let's see how many you can eat. React below to claim it",
             color=discord.Colour.dark_green()
         )
         
@@ -44,7 +44,7 @@ class Drops(commands.Cog):
                     color=discord.Colour.gold()
                 )
                 winner.set_image(url=image)
-                winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you now have `{int(count) + 1}` {emoji} marshmallows")
+                winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you've ate `{int(count) + 1}` {emoji} marshmallows")
                 await msg.edit(embed = winner, delete_after=10)
                 await db.update_count(guild.id, user.id)
         
@@ -83,8 +83,8 @@ class Drops(commands.Cog):
         await self.bot.wait_until_ready()
         await Drops.DropTask.start(self)
 
-    @commands.command(description="See yours or another's Marshmallow Count")
-    async def claims(self, ctx, member: Optional[discord.Member]=None):
+    @commands.command(description="See how many marshmallows you or another member have ate.")
+    async def eaten(self, ctx, member: Optional[discord.Member]=None):
         if member is None:
             member = ctx.author
 
