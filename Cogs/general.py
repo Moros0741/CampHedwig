@@ -56,7 +56,9 @@ class General(commands.Cog):
                 
                 elif isinstance(setting, str):
                     time_convert = {"s":1, "m":60, "h":3600,"d":86400}
-                    time= int(setting[0]) * time_convert[str(setting[-1])]
+                    if len(setting) > 2:
+                        duration = setting.strip("smhd")
+                    time= int(duration) * time_convert[str(setting[-1])]
 
                 await db.set_msg_time(ctx.guild.id, time)
                 response = f"Set Drop time to `{setting}`"
