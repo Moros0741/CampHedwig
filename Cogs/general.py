@@ -40,7 +40,6 @@ class General(commands.Cog):
             await ctx.send("You are not one of the accepted users of that command.", delete_after=5)
         
         else:
-            print("Passed User check")
             if marker.lower() == 'prefix' and isinstance(setting, str):
                 prefix = setting.split(' ')
                 await db.add_prefix(ctx.guild.id, prefix[0])
@@ -52,13 +51,11 @@ class General(commands.Cog):
             
             elif marker.lower() == 'droptime':
                 if isinstance(setting, int):
-                    time = setting * 120
+                    time = setting * 60
                 
                 elif isinstance(setting, str):
                     time_convert = {"s":1, "m":60, "h":3600,"d":86400}
-                    if len(setting) > 2:
-                        duration = setting.strip("smhd")
-                    time= int(duration) * time_convert[str(setting[-1])]
+                    time= int(setting.strip("smhd")) * time_convert[str(setting[-1])]
 
                 await db.set_msg_time(ctx.guild.id, time)
                 response = f"Set Drop time to `{setting}`"

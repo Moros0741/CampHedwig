@@ -58,7 +58,7 @@ class Drops(commands.Cog):
             except discord.Forbidden:
                 pass
             
-    @tasks.loop(seconds = 30)
+    @tasks.loop(seconds = 10)
     async def DropTask(self):
         timenow = datetime.datetime.utcnow().strftime('%m %d, %Y %H:%M:%S')
         drops = await db.fetch_all_drops()
@@ -72,7 +72,7 @@ class Drops(commands.Cog):
                 else:
                     Delta = datetime.timedelta(seconds=int(drop[2]))
                     Last = datetime.datetime.strptime(drop[3], "%m %d, %Y %H:%M:%S")
-                    Now = datetime.datetime.utcnow().strptime(timenow, '%m %d, %Y %H:%M:%S')
+                    Now = datetime.datetime.strptime(timenow, '%m %d, %Y %H:%M:%S')
                     Next = Last + Delta
                     if Next <= Now and drop[4] == 'True':
                         await Drops.send_drop(self, drop)
@@ -105,19 +105,18 @@ class Drops(commands.Cog):
         """|<a:jumpys:871708733355474964> Leaderboards <a:jumpys:871708733355474964>"""
         results = await db.fetch_all(ctx.guild.id)
         leaderboards = []
-        leaderboards.append("{:^4} | {:^5} | {:^16}".format("NO.#", "Count", "Member"))
-        leaderboards.append("-----+-------+-----------------")
         n = 1
-        for result in results[0:9]: 
-            member = ctx.guild.get_member(int(result[0]))
-            leaderboards.append("{:^4} | {:^5} | {:^16} ".format(n, result[1], member.display_name if len(str(member.display_name)) < 16 else str(member.display_name)[:13] + "..."))
+        for result in results[0:10]: 
+            member = f"<@{int(result[0])}>"
+            leaderboards.append("**{:^4}.** `{:,}` - {:^16} ".format(n, result[1], member))
             n += 1
 
         embed = discord.Embed(
             title=f"{ctx.guild.name.title()}'s Leaders",
-            description="```{}```".format('\n'.join(leaderboards)),
             color=discord.Colour.dark_green()
         )
+
+        embed.add_field(name="Top 10", value="{}".format('\n'.join(leaderboards)), inline=False)
         embed.set_thumbnail(url=ctx.guild.icon_url)
         await ctx.message.delete()
         await ctx.send(embed=embed)
