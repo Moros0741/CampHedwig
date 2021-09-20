@@ -144,4 +144,3 @@ async def toggle_drop(guild, toggle):
     db.commit()
     c.close()
     db.close()
-
