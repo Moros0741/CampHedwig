@@ -26,8 +26,8 @@ class General(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name=f"`{ctx.prefix}claims [@Member]`| Aliases: `None`", 
-            value="Display's your personal marshmallow count, or that of the mentioned member.", 
+            name=f"`{ctx.prefix}eaten [@Member]`| Aliases: `None`", 
+            value="Display how many marshmallows you have eaten, or another user if mentioned.", 
             inline=False
         )
 
@@ -56,7 +56,7 @@ class General(commands.Cog):
                 
                 elif isinstance(setting, str):
                     time_convert = {"s":1, "m":60, "h":3600,"d":86400}
-                    time= int(setting[0]) * time_convert[str(setting[-1])]
+                    time= int(setting.strip("smhd")) * time_convert[str(setting[-1])]
 
                 await db.set_msg_time(ctx.guild.id, time)
                 response = f"Set Drop time to `{setting}`"
@@ -94,6 +94,11 @@ class General(commands.Cog):
                         """,
                 inline=False
             )
+            embed.add_field(
+                name =f"`{ctx.prefix}settings` | Aliases: `None`",
+                value="*View this server's current drop settings and information.",
+                inline=False
+            )
             await ctx.message.delete()
             await ctx.send(embed=embed)
 
@@ -124,64 +129,67 @@ class General(commands.Cog):
 
     @commands.command(descripiton="Dump components files.")
     async def dump(self, ctx):
-        fp = open("./Cogs/components.json", 'r').read()
-        f = json.loads(fp)
-        images = f["drops"]["images"]
-        messages = f["drops"]["messages"]
+        if ctx.author.id in self.bot.user_ids:
+            fp = open("./Cogs/components.json", 'r').read()
+            f = json.loads(fp)
+            images = f["drops"]["images"]
+            messages = f["drops"]["messages"]
 
-        msg = await ctx.send("Are you sure you want to do this? It will dump all contents into chat.?")
-        emojis = ['✅', '❌']
-        for emoji in emojis:
-            await msg.add_reaction(emoji)
+            msg = await ctx.send("Are you sure you want to do this? It will dump all contents into chat.?")
+            emojis = ['✅', '❌']
+            for emoji in emojis:
+                await msg.add_reaction(emoji)
 
-        def check(reaction, user):
-            return user == ctx.author and user != self.bot.user and str(reaction.emoji) in emojis
+            def check(reaction, user):
+                return user == ctx.author and user != self.bot.user and str(reaction.emoji) in emojis
 
-        
-        try:
-            reaction, user = await self.bot.wait_for("reaction_add", check = check, timeout = 120)
+            
+            try:
+                reaction, user = await self.bot.wait_for("reaction_add", check = check, timeout = 120)
 
-        
-            if str(reaction.emoji) == '✅':
-                for image in images:
-                    embed = discord.Embed(
-                        description=f"[Image Link]({image})",
-                        color=discord.Colour.dark_green()
-                    )
-                    embed.set_image(url=image)
-                
-                    await ctx.send(embed=embed)
-                
-                if len(messages) < 10:
-
-                    embed = discord.Embed(
-                        title="Messages",
-                        color=discord.Colour.dark_green()
-                    )
-                    for message in messages:
-                        embed.add_field(name='\u200b', value=message, inline=False)
-                    
-                    await ctx.send(embed = embed)
-                
-                elif len(messages) > 10 and len(messages) < 50:
-                    
-                    for message in messages:
+            
+                if str(reaction.emoji) == '✅':
+                    for image in images:
                         embed = discord.Embed(
-                            description=message,
+                            description=f"[Image Link]({image})",
                             color=discord.Colour.dark_green()
                         )
+                        embed.set_image(url=image)
+                    
+                        await ctx.send(embed=embed)
+                    
+                    if len(messages) < 10:
+
+                        embed = discord.Embed(
+                            title="Messages",
+                            color=discord.Colour.dark_green()
+                        )
+                        for message in messages:
+                            embed.add_field(name='\u200b', value=message, inline=False)
+                        
                         await ctx.send(embed = embed)
+                    
+                    elif len(messages) > 10 and len(messages) < 50:
+                        
+                        for message in messages:
+                            embed = discord.Embed(
+                                description=message,
+                                color=discord.Colour.dark_green()
+                            )
+                            await ctx.send(embed = embed)
+                    
+                    await ctx.send("✅ All Components have been dumped.")
                 
-                await ctx.send("✅ All Components have been dumped.")
+                elif str(reaction.emoji) == "❌":
+                    await ctx.send("❌ Cancelled component dump")
             
-            elif str(reaction.emoji) == "❌":
-                await ctx.send("❌ Cancelled component dump")
-        
-        except asyncio.TimeoutError:
-            try:
-                await msg.delete()
-            except:
-                pass
+            except asyncio.TimeoutError:
+                try:
+                    await msg.delete()
+                except:
+                    pass
+        else:
+            await ctx.reply("You do not have the permissions required to access this command.", delete_after=10)
 
 def setup(bot):
     bot.add_cog(General(bot))

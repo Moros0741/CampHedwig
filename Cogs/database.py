@@ -35,7 +35,7 @@ async def set_drop_channel(guild, channel):
 async def set_user(guild, user, count):
     db = sqlite3.connect('drops.sqlite')
     c = db.cursor()
-    c.execute("INSERT INTO users(guild_id, user_id, count, active) VALUES(?,?,?)", (guild, user, count, 'True',))
+    c.execute("INSERT INTO users(guild_id, user_id, count, active) VALUES(?,?,?,?)", (guild, user, count, 'True',))
     db.commit()
     c.close()
     db.close()
@@ -63,7 +63,7 @@ async def fetch_user(guild, user):
 async def fetch_all(guild):
     db = sqlite3.connect('drops.sqlite')
     cursor = db.cursor()
-    results = cursor.execute("SELECT user_id, count FROM users WHERE guild_id = ? and active = ? ORDER BY count ASC", (guild, 'True',)).fetchall()
+    results = cursor.execute("SELECT user_id, count FROM users WHERE guild_id = ? and active = ? ORDER BY count DESC", (guild, 'True',)).fetchall()
     cursor.close()
     db.close()
     return results
@@ -144,4 +144,3 @@ async def toggle_drop(guild, toggle):
     db.commit()
     c.close()
     db.close()
-
