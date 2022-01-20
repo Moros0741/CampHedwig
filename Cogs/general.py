@@ -1,6 +1,6 @@
-import discord, typing, asyncio, random, datetime, json
-from discord.ext import commands
-from discord.ext.commands import has_any_role
+import disnake, typing, asyncio, random, datetime, json
+from disnake.ext import commands
+from disnake.ext.commands import has_any_role
 from typing import Optional, Union
 from random import choice, randint
 from Cogs import database as db
@@ -15,10 +15,10 @@ class General(commands.Cog):
 
     @commands.command(description="Shows command help")
     async def help(self, ctx):
-        embed = discord.Embed(
+        embed = disnake.Embed(
             title="Command Help", 
             description="Anything in:\n`[]` is Optional \n`<>` is mandatory.",
-            color=discord.Colour.dark_green()
+            color=self.bot.color
         )
         embed.add_field(
             name=f"`{ctx.prefix}leaderboards` | Aliases: `{ctx.prefix}top`, `{ctx.prefix}lb` ", 
@@ -35,7 +35,7 @@ class General(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='set', description="Set prefix, dropdchannel, droptime, on,  off")
-    async def _set(self, ctx, marker, *, setting: Union[discord.TextChannel, str, discord.Emoji]):
+    async def _set(self, ctx, marker, *, setting: Union[disnake.TextChannel, str, disnake.Emoji]):
         if ctx.author.id not in self.bot.user_ids:
             await ctx.send("You are not one of the accepted users of that command.", delete_after=5)
         
@@ -71,15 +71,15 @@ class General(commands.Cog):
             
 
             await ctx.message.delete()
-            await ctx.send(embed=discord.Embed(description=response, color=discord.Colour.dark_green()), delete_after=10)
+            await ctx.send(embed=disnake.Embed(description=response, color=self.bot.color), delete_after=10)
 
     @commands.command(description="Help embed for setting up drops")
     async def sethelp(self, ctx):
         if ctx.author.id in self.bot.user_ids:
-            embed = discord.Embed(
+            embed = disnake.Embed(
                 title="Setup Help",
                 description="Anything in: \n`[]` is Optional \n`<>` is Mandatory",
-                color=discord.Colour.dark_green()
+                color=self.bot.color
             )
             embed.add_field(
                 name=f"`{ctx.prefix}set <marker> <setting>`", 
@@ -105,12 +105,12 @@ class General(commands.Cog):
     async def settings(self, ctx):
         r = await db.fetch_drop(ctx.guild.id)
         if r[4] == 'True':
-            color = discord.Colour.dark_green()
+            color = disnake.Colour.dark_green()
         elif r[4] == 'False':
-            color = discord.Colour.dark_red()
+            color = disnake.Colour.dark_red()
         else:
-            color = discord.Colour.random()
-        embed = discord.Embed(
+            color = self.bot.color
+        embed = disnake.Embed(
             title=f"{ctx.guild}'s Drop Settings", 
             color=color
         )
@@ -129,7 +129,7 @@ class General(commands.Cog):
     @commands.command(descripiton="Dump components files.")
     async def dump(self, ctx):
         if ctx.author.id in self.bot.user_ids:
-            fp = open("./Cogs/components.json", 'r').read()
+            fp = open("./data/components.json", 'r').read()
             f = json.loads(fp)
             images = f["drops"]["images"]
             messages = f["drops"]["messages"]
@@ -149,9 +149,9 @@ class General(commands.Cog):
             
                 if str(reaction.emoji) == '✅':
                     for image in images:
-                        embed = discord.Embed(
+                        embed = disnake.Embed(
                             description=f"[Image Link]({image})",
-                            color=discord.Colour.dark_green()
+                            color=self.bot.color
                         )
                         embed.set_image(url=image)
                     
@@ -159,9 +159,9 @@ class General(commands.Cog):
                     
                     if len(messages) < 10:
 
-                        embed = discord.Embed(
+                        embed = disnake.Embed(
                             title="Messages",
-                            color=discord.Colour.dark_green()
+                            color=self.bot.color
                         )
                         for message in messages:
                             embed.add_field(name='\u200b', value=message, inline=False)
@@ -171,9 +171,9 @@ class General(commands.Cog):
                     elif len(messages) > 10 and len(messages) < 50:
                         
                         for message in messages:
-                            embed = discord.Embed(
+                            embed = disnake.Embed(
                                 description=message,
-                                color=discord.Colour.dark_green()
+                                color=self.bot.color
                             )
                             await ctx.send(embed = embed)
                     

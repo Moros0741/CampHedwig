@@ -1,29 +1,27 @@
-import discord, typing, random, datetime, asyncio, json
-from discord.ext import tasks, commands
-from discord.ext.commands import has_permissions, has_guild_permissions, MissingPermissions
+import disnake, typing, random, datetime, asyncio, json
+from disnake.ext import tasks, commands
 from random import choice
 from typing import Optional
 from Cogs import database as db
 
 
 class Drops(commands.Cog):
-    """<a:jumpys:871708733355474964> Smores Season Commands<a:jumpys:871708733355474964>
-    """
+    """Snowpocalypse commands"""
     def __init__(self, bot):
         self.bot = bot
 
     async def send_drop(self, drop):
         guild = self.bot.get_guild(drop[0])
         channel = guild.get_channel(drop[1])
-        emoji = self.bot.get_emoji(875460650762113064)
-        contents = open("./Cogs/components.json", 'r').read()
+        emoji = self.bot.get_emoji(928282118939901952)
+        contents = open("./data/components.json", 'r').read()
         c = json.loads(contents)
         mess = random.choice(c["drops"]["messages"])
         image = random.choice(c["drops"]["images"])
         
-        embed = discord.Embed(
-            description=f"Oh. What's this? A {emoji} has been found! Let's see how many you can eat. React below to claim it",
-            color=discord.Colour.dark_green()
+        embed = disnake.Embed(
+            description=f"Oh. What's this? Snowflakes {emoji} are falling from the sky! Let's see how many you can catch. React below to claim it",
+            color=self.bot.color
         )
         
         msg = await channel.send(embed=embed)
@@ -41,13 +39,13 @@ class Drops(commands.Cog):
                 else:
                     count = count[2]
                 await msg.clear_reactions()
-                winner = discord.Embed(
-                    title="You claimed the Marshmallow!", 
+                winner = disnake.Embed(
+                    title="You caught a Snowflake!", 
                     description=mess,
-                    color=discord.Colour.gold()
+                    color=self.bot.color
                 )
                 winner.set_image(url=image)
-                winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you've ate `{int(count) + 1}` {emoji} marshmallows")
+                winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you've caught `{int(count) + 1}` {emoji} snowflakes!")
                 await msg.edit(embed = winner, delete_after=30)
                 await db.update_count(guild.id, user.id)
         
@@ -55,7 +53,7 @@ class Drops(commands.Cog):
             try:
                 message = await channel.fetch_message(msg.id)
                 await message.delete()
-            except discord.Forbidden:
+            except disnake.Forbidden:
                 pass
             
     @tasks.loop(seconds = 10)
@@ -86,38 +84,37 @@ class Drops(commands.Cog):
         await self.bot.wait_until_ready()
         await Drops.DropTask.start(self)
 
-    @commands.command(description="See how many marshmallows you or another member have ate.")
-    async def eaten(self, ctx, member: Optional[discord.Member]=None):
+    @commands.command(description="See how many snowflakes you or another user have caught!")
+    async def count(self, ctx, member: Optional[disnake.Member]=None):
         if member is None:
             member = ctx.author
 
         result = await db.fetch_user(ctx.guild.id, member.id)
 
-        embed = discord.Embed(
+        embed = disnake.Embed(
             description=f"{member.mention} has claimed `{result[2]}` <a:smores:875460650762113064> Marshmallows!",
-            color=discord.Colour.dark_green()
+            color=self.bot.color
         )
         await ctx.message.delete()
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=['lb', 'top'], description="See who has collected the most <a:smores:875460650762113064> in the Server")
+    @commands.command(aliases=['lb', 'top'], description="See who has collected the most snowflakes at Hogwarts!")
     async def leaderboard(self, ctx):
-        """|<a:jumpys:871708733355474964> Leaderboards <a:jumpys:871708733355474964>"""
         results = await db.fetch_all(ctx.guild.id)
         leaderboards = []
         n = 1
         for result in results[0:10]: 
-            member = f"<@{int(result[0])}>"
+            member = f"<@!{int(result[0])}>"
             leaderboards.append("**{:^4}.** `{:,}` - {:^16} ".format(n, result[1], member))
             n += 1
 
-        embed = discord.Embed(
+        embed = disnake.Embed(
             title=f"{ctx.guild.name.title()}'s Leaders",
-            color=discord.Colour.dark_green()
+            color=self.bot.color
         )
 
         embed.add_field(name="Top 10", value="{}".format('\n'.join(leaderboards)), inline=False)
-        embed.set_thumbnail(url=ctx.guild.icon_url)
+        embed.set_thumbnail(url=ctx.guild.icon.url)
         await ctx.message.delete()
         await ctx.send(embed=embed)
 

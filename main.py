@@ -1,9 +1,9 @@
-import discord, os, dotenv
-from discord.ext import commands
+import disnake, os, dotenv
+from disnake.ext import commands
 from dotenv import load_dotenv
 from Cogs import database as db
 
-intents = discord.Intents.default()
+intents = disnake.Intents.default()
 intents.members = True
 
 async def get_prefix(bot, message):
@@ -22,11 +22,13 @@ class MyBot(commands.Bot):
     def __init__(self):
         super().__init__(
             command_prefix=get_prefix,
-            activity=discord.Game(name="Marco Polo at Lake Hedwig!"),
+            activity=disnake.Activity(name="Snowman Contest", type=5),
             help_command=None,
             intents = intents,
         )
         self.user_ids = [765324522676682803, 694322536397406238, 700057705951395921]
+        self.color = disnake.Colour.from_rgb(160, 216, 241)
+        self.colors = [(91, 170, 209), (121, 219, 250)]
 
 bot = MyBot()
 
@@ -59,6 +61,7 @@ for extension in startup_extensions:
 
 
 try:
-    bot.run(TOKEN, bot=True, reconnect=True)
-except:
+    bot.run(TOKEN)
+except Exception as e:
+    print(e)
     print("ERROR: Bot failed to start. This is probably due to an invalid token.")

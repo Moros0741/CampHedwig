@@ -1,6 +1,6 @@
 import sqlite3
-import discord
-from discord.ext import commands
+import disnake
+from disnake.ext import commands
 import datetime
 
 """
@@ -70,7 +70,7 @@ async def fetch_all(guild):
 
 async def add_prefix(guild, prefix):
     r = await fetch_prefix(guild)
-    db = sqlite3.connect('main.sqlite')
+    db = sqlite3.connect('drops.sqlite')
     c = db.cursor()
     if r is None:
         c.execute("INSERT INTO config(guild_id, prefix) VALUES(?,?)", (guild, prefix,))
@@ -83,7 +83,7 @@ async def add_prefix(guild, prefix):
     db.close()
 
 async def fetch_prefix(guild):
-    db = sqlite3.connect('main.sqlite')
+    db = sqlite3.connect('drops.sqlite')
     cursor = db.cursor()
     results = cursor.execute("SELECT prefix FROM config WHERE guild_id = ?", (guild,)).fetchone()
     cursor.close()
