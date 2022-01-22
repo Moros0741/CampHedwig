@@ -16,11 +16,11 @@ class Drops(commands.Cog):
         emoji = self.bot.get_emoji(928282118939901952)
         contents = open("./data/components.json", 'r').read()
         c = json.loads(contents)
-        mess = random.choice(c["drops"]["messages"])
-        image = random.choice(c["drops"]["images"])
+        mess = random.choice(c["messages"])
+        image = random.choice(c["images"])
         
         embed = disnake.Embed(
-            description=f"Oh. What's this? Snowflakes {emoji} are falling from the sky! Let's see how many you can catch. React below to claim it",
+            description=f"Oh. What's this? Snowflakes {emoji} are falling from the sky! Let's see how many we can catch. React below to catch it",
             color=self.bot.color
         )
         
@@ -44,8 +44,8 @@ class Drops(commands.Cog):
                     description=mess,
                     color=self.bot.color
                 )
-                winner.set_image(url=image)
-                winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you've caught `{int(count) + 1}` {emoji} snowflakes!")
+                winner.set_thumbnail(url=image)
+                winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you've caught `{int(count) + 1}` {emoji} snowflake(s)!")
                 await msg.edit(embed = winner, delete_after=30)
                 await db.update_count(guild.id, user.id)
         

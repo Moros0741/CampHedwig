@@ -1,32 +1,39 @@
 {
-    "drops" : {
-        "guild_id" : 0,
-        "images": [
-            "https://media.giphy.com/media/t3NDtNT17oxzO/giphy.gif",
-            "https://media.giphy.com/media/3oeHLleLUpNVIcPnlC/giphy.gif",
-            "https://media.giphy.com/media/1AunKpz3cdCpy/giphy.gif",
-            "https://media.giphy.com/media/l0ExlQLMHLxAt2p6E/giphy.gif",
-            "https://media.giphy.com/media/Wj8V6Uhs2a50wVqITL/giphy.gif",
-            "https://media.giphy.com/media/S60PZgDyT51DAlgPCM/giphy.gif",
-            "https://vignette.wikia.nocookie.net/adventuretimewithfinnandjake/images/7/77/S7e22_marshmallow_kids_campfire.png/revision/latest?cb=20160126205251",
-            "https://www.southwesttimes.com/wp-content/uploads/2016/08/Marshmallow-3.jpg",
-            "https://yt3.ggpht.com/-3UIxHMsi0pA/AAAAAAAAAAI/AAAAAAAAAAA/VOvYjUvaCM8/s900-c-k-no/photo.jpg",
-            "https://static.wikia.nocookie.net/harrypotter/images/1/12/Bill_Weasley%27s_crew_camping_in_the_Romanian_Dragon_Sanctuary_3.jpg/revision/latest/scale-to-width-down/250?cb=20210811074323",
-            "https://thedecoratedcookie.com/wp-content/uploads/2012/01/wm.harrypottermarshmallow3.jpg",
-            "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9dd64abc-0b28-4a64-a2eb-ca229f5d1a4d/d58365m-417d919b-2be1-431c-8454-efbfdeb72697.jpg/v1/fill/w_900,h_772,q_75,strp/marshmallow_on_fire_by_cherryontop21-d58365m.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi85ZGQ2NGFiYy0wYjI4LTRhNjQtYTJlYi1jYTIyOWY1ZDFhNGQvZDU4MzY1bS00MTdkOTE5Yi0yYmUxLTQzMWMtODQ1NC1lZmJmZGViNzI2OTcuanBnIiwid2lkdGgiOiI8PTkwMCIsImhlaWdodCI6Ijw9NzcyIn1dXX0.Frm5sfhbj02uJOta77oC6PNYszLrUt1y5u5MpSeks0g",
-            "https://images-ext-1.discordapp.net/external/3pdtej9_kgdrDwccz6KFQEwBbVWrKEsf3mOY1nSsEJY/https/media.discordapp.net/attachments/864929394594152498/867864035298377748/6613474850d364170f6274abfaa63fcf.gif"
-            
-        ],
-        "messages" : [
-            "Your eyes were distracted by a dementor looking shape in the trees. You burnt your mashmallow.",
-            "The best way to enjoy marshmallows is with friends. Oh look! Fellow Hedwig Haven members are coming to join you!",
-            "WOW a shooting star, it must be your lucky day shooting stars and marshmallows.",
-            "INCENDIO, lets get this camp fire started to roast these marshmallows.",
-            "A large gathering and people having fun, let's hope *Umbridge* doesnt hear about this. We better eat the evidence!",
-            "Did you know that in the 1989-90 school year at the Romanian Dragon Sanctuary, *Bill Weasley* and his gang ate mashmallows by the campire just like you! ",
-            "During 1991-92 school year both Harry and Ron roasted marshmallows, I wonder if they played their own version of fluffy bunnies.",
-            "What is made of sugar, water, and gelatin and in a cyclinder shape? Marshmallows."
-        ]
-
-    }
+   "messages": [
+    "We're like snowflakes. Each of us is unique, but it's still pretty hard to tell us apart.",
+    "In life, no two days are the same for me. It's like a snowflake.",
+    "Every snowflake is unique, yet they are each perfect.",
+    "Love is like a snowflake, it can come to you in any shape or size, and from any direction.",
+    "Good friends are like snowflakes, all different and all beautiful.",
+    "The snowflake charm, be as unique as a snowflake: embrace all your dimensions.",
+    "A snowflake is winter's butterfly",
+    "Even the strongest blizzards start with a single snowflake.",
+    "Snowflakes are snow angels blowing kisses from heaven.",
+    "When I no longer thrill to the first snow of the season, I'll know I'm growing old.",
+    "Snowflakes are pretty patterns etched in water's dreams.",
+    "A snowball in the face is surely the perfect beginning to a lasting friendship.",
+    "Catching snowflakes on your tongue brings you back to childhood.",
+    "No snowflake ever falls in the wrong place.",
+    "Remember our souls are like snowflakes, all different and beautiful.",
+    "The snowflake never needs to feel responsible for the avalanche.",
+    "Even the strongest blizzards start with a single snowflake.",
+    "If hugs were snowflakes, I would send you a blizzard.",
+    "Sadly, my socks are like snowflakes, no two are exactly alike.",
+    "The weather might be frightful, but spending it with you is delightful."
+    ],
+    "images" : [
+        "https://media.discordapp.net/attachments/839642008431362128/934137398756008028/snowflake-14.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137399011868712/snowflake-13.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137399330623508/snowflake-12.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137399573884999/snowflake-11.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137400404373534/snowflake-9.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137429349253120/snowflake-8.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137430016135188/snowflake-7.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137430330716244/snowflake-6.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137430645301328/snowflake-5.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137439348465714/snowflake-4.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137439612719144/snowflake-3.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137439868551188/snowflake-2.gif",
+        "https://media.discordapp.net/attachments/839642008431362128/934137440099262504/snowflake-1.gif"
+    ]
 }
