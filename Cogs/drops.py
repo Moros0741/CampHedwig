@@ -6,23 +6,25 @@ from Cogs import database as db
 
 
 class Drops(commands.Cog):
-    """Snowpocalypse commands"""
+    """Valentine's Day commands"""
     def __init__(self, bot):
         self.bot = bot
 
     async def send_drop(self, drop):
         guild = self.bot.get_guild(drop[0])
         channel = guild.get_channel(drop[1])
-        emoji = self.bot.get_emoji(928282118939901952)
+        emoji = self.bot.get_emoji(942145832864595968)
         contents = open("./data/components.json", 'r').read()
         c = json.loads(contents)
-        mess = random.choice(c["drops"]["messages"])
-        image = random.choice(c["drops"]["images"])
+        mess = random.choice(c["messages"])
+        image = random.choice(c["images"])
         
         embed = disnake.Embed(
-            description=f"Oh. What's this? Snowflakes {emoji} are falling from the sky! Let's see how many you can catch. React below to claim it",
-            color=self.bot.color
+            description=f"Wait, Is that chocolate I smell? It Is! Better get some before all the good ones are gone!",
+            color=self.bot.color,
         )
+        embed.set_image(c["image"])
+        embed.set_thumbnail(random.choice(c["thumbnails"]))
         
         msg = await channel.send(embed=embed)
         await msg.add_reaction(emoji)
@@ -40,12 +42,12 @@ class Drops(commands.Cog):
                     count = count[2]
                 await msg.clear_reactions()
                 winner = disnake.Embed(
-                    title="You caught a Snowflake!", 
+                    title="Happy Valentines Day, Love!", 
                     description=mess,
                     color=self.bot.color
                 )
-                winner.set_image(url=image)
-                winner.add_field(name="\u200b", value=f"Congrats, {user.mention} you've caught `{int(count) + 1}` {emoji} snowflakes!")
+                winner.set_thumbnail(url=image)
+                winner.add_field(name="\u200b", value=f"Enjoy your chocolate, {user.mention}! You've had `{int(count) + 1}` chocolates!")
                 await msg.edit(embed = winner, delete_after=30)
                 await db.update_count(guild.id, user.id)
         
@@ -84,7 +86,7 @@ class Drops(commands.Cog):
         await self.bot.wait_until_ready()
         await Drops.DropTask.start(self)
 
-    @commands.command(description="See how many snowflakes you or another user have caught!")
+    @commands.command(description="See how many chocolate you've eaten this Valentine's day! Or a friend!")
     async def count(self, ctx, member: Optional[disnake.Member]=None):
         if member is None:
             member = ctx.author
@@ -92,13 +94,13 @@ class Drops(commands.Cog):
         result = await db.fetch_user(ctx.guild.id, member.id)
 
         embed = disnake.Embed(
-            description=f"{member.mention} has claimed `{result[2]}` <a:smores:875460650762113064> Marshmallows!",
+            description=f"{member.mention} has had `{result[2]}` chocolates!",
             color=self.bot.color
         )
         await ctx.message.delete()
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=['lb', 'top'], description="See who has collected the most snowflakes at Hogwarts!")
+    @commands.command(aliases=['lb', 'top'], description="See who eaten the most chocolates!")
     async def leaderboard(self, ctx):
         results = await db.fetch_all(ctx.guild.id)
         leaderboards = []

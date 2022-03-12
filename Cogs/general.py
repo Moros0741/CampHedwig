@@ -26,8 +26,8 @@ class General(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name=f"`{ctx.prefix}eaten [@Member]`| Aliases: `None`", 
-            value="Display how many marshmallows you have eaten, or another user if mentioned.", 
+            name=f"`{ctx.prefix}count [@Member]`| Aliases: `None`", 
+            value="Display how many chocolates you've had, or another user if mentioned.", 
             inline=False
         )
 
@@ -131,8 +131,8 @@ class General(commands.Cog):
         if ctx.author.id in self.bot.user_ids:
             fp = open("./data/components.json", 'r').read()
             f = json.loads(fp)
-            images = f["drops"]["images"]
-            messages = f["drops"]["messages"]
+            images = f["images"]
+            messages = f["messages"]
 
             msg = await ctx.send("Are you sure you want to do this? It will dump all contents into chat.?")
             emojis = ['✅', '❌']

@@ -22,13 +22,12 @@ class MyBot(commands.Bot):
     def __init__(self):
         super().__init__(
             command_prefix=get_prefix,
-            activity=disnake.Activity(name="Snowman Contest", type=5),
+            activity=disnake.Game("Chocolate Gourge"),
             help_command=None,
             intents = intents,
         )
         self.user_ids = [765324522676682803, 694322536397406238, 700057705951395921]
-        self.color = disnake.Colour.from_rgb(160, 216, 241)
-        self.colors = [(91, 170, 209), (121, 219, 250)]
+        self.color = disnake.color.luminous_vivid_pink();
 
 bot = MyBot()
 
